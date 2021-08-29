@@ -1,3 +1,8 @@
+import types.Account;
+import types.Department;
+import types.State;
+import types.Transaction;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
