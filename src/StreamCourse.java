@@ -5,8 +5,12 @@ import types.Transaction;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 public class StreamCourse {
     public static void main(String[] args) {
@@ -23,8 +27,7 @@ public class StreamCourse {
     }
 
     public static IntStream createFilteringStream(IntStream evenStream, IntStream oddStream) {
-        return IntStream.concat(evenStream, oddStream).filter(it -> it % 3 == 0 && it % 5 == 0)
-                .distinct().sorted().skip(2);
+        return IntStream.concat(evenStream, oddStream).filter(it -> it % 3 == 0 && it % 5 == 0).distinct().sorted().skip(2);
     }
 
     public static long factorial(long n) {
@@ -38,23 +41,22 @@ public class StreamCourse {
 
     public static long sumOfOddNumbersInRange(long start, long end) {
         Stream<Long> numbers = Stream.iterate(start, el -> el + 1).limit(end - start + 1);
-        return numbers.filter(it -> it % 2 != 0)
-                .reduce(0L, Long::sum);
+        return numbers.filter(it -> it % 2 != 0).reduce(0L, Long::sum);
     }
 
     public static long calcNumberOfEmployees(List<Department> departments, long threshold) {
-        return departments.stream()
-                .filter(dep -> dep.getCode().startsWith("111-"))
-                .flatMap(dep -> dep.getEmployees().stream())
-                .filter(employ -> employ.getSalary() >= threshold)
-                .count();
+        return departments.stream().filter(dep -> dep.getCode().startsWith("111-")).flatMap(dep -> dep.getEmployees().stream()).filter(employ -> employ.getSalary() >= threshold).count();
     }
 
     public static long calcSumOfCanceledTransOnNonEmptyAccounts(List<Account> accounts) {
-        return accounts.stream().filter(acc -> acc.getBalance() > 0)
-                .flatMap(acc -> acc.getTransactions().stream())
-                .filter(tr -> tr.getState() == State.CANCELED)
-                .mapToLong(Transaction::getSum)
-                .sum();
+        return accounts.stream().filter(acc -> acc.getBalance() > 0).flatMap(acc -> acc.getTransactions().stream()).filter(tr -> tr.getState() == State.CANCELED).mapToLong(Transaction::getSum).sum();
+    }
+
+    public static long productOfSquares(List<Integer> numbers) {
+        return numbers.stream().collect(reducing(1L, num -> Long.valueOf(num * num), (num1, num2) -> num1 * num2));
+    }
+
+    public static Map<Boolean, List<String>> palindromeOrNoMap(String[] words) {
+        return Arrays.stream(words).collect(Collectors.partitioningBy(word -> word.equals(new StringBuilder(word).reverse().toString())));
     }
 }
