@@ -1,4 +1,4 @@
-package types;
+package stepic.course.types;
 
 import java.util.List;
 
