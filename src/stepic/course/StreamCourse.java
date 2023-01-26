@@ -1,11 +1,8 @@
-import types.Account;
-import types.Department;
-import types.State;
-import types.Transaction;
+package stepic.course;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import stepic.course.types.*;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
