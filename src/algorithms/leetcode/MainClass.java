@@ -1,12 +1,19 @@
 package algorithms.leetcode;
 
+import algorithms.leetcode.structures.ListNode;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class MainClass {
     public static void main(String[] args) {
-        String s = ",.";
-        System.out.println(isPalindrome(s));
+        ListNode node5 = new ListNode(5);
+        ListNode node4 = new ListNode(4, node5);
+        ListNode node3 = new ListNode(3, node4);
+        ListNode node2 = new ListNode(2, node3);
+        ListNode node1 = new ListNode(1, node2);
+
+        System.out.println(reverseListRec(node1));
     }
 
     public static boolean containsDuplicate(int[] nums) {
@@ -87,5 +94,64 @@ public class MainClass {
 
     static boolean isAlphanumeric(char ch) {
         return Character.isDigit(ch) || Character.isLetter(ch);
+    }
+
+    public static ListNode reverseListRec(ListNode head) {
+
+        if (head == null) return null;
+        if (head.next == null) return head;
+        if (head.next.next == null) {
+            ListNode next = head.next;
+            head.next.next = head;
+            head.next = null;
+            return next;
+        }
+
+        return reverseListRecurs(head);
+    }
+
+    private static ListNode reverseListRecurs(ListNode head) {
+        if (head.next.next == null) {
+            head.next.next = head;
+
+            return head.next;
+        } else {
+
+            ListNode newHead = reverseListRecurs(head.next);
+            head.next.next = head;
+            head.next = null;
+
+            return newHead;
+        }
+    }
+
+    public static ListNode reverseList(ListNode head) {
+
+        ListNode tmpP = null;
+        ListNode tmpF = null;
+
+        while (head.next.next != null) {
+
+            if (tmpP == null)
+            {
+                tmpP = head;
+                head = head.next;
+                tmpF = head.next;
+                tmpP.next = null;
+            }
+
+            else {
+                head.next = tmpP;
+                tmpP = head;
+                head = tmpF;
+                tmpF = head.next;
+            }
+
+        }
+
+        head.next = tmpP;
+        tmpF.next = head;
+
+        return tmpF;
     }
 }
