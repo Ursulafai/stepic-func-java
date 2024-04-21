@@ -7,13 +7,9 @@ import java.util.HashSet;
 
 public class MainClass {
     public static void main(String[] args) {
-        ListNode node5 = new ListNode(5);
-        ListNode node4 = new ListNode(4, node5);
-        ListNode node3 = new ListNode(3, node4);
-        ListNode node2 = new ListNode(2, node3);
-        ListNode node1 = new ListNode(1, node2);
+        ListNode node1 = new ListNode(1, null);
 
-        System.out.println(reverseListRec(node1));
+        System.out.println(hasCycle(node1));
     }
 
     public static boolean containsDuplicate(int[] nums) {
@@ -153,5 +149,23 @@ public class MainClass {
         tmpF.next = head;
 
         return tmpF;
+    }
+
+    public static boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) return false;
+
+        ListNode firstPointer = head;
+        ListNode secondPointer = head.next;
+
+        while (firstPointer.next != null) {
+            if (secondPointer.next == null || secondPointer.next.next == null) return false;
+            if (firstPointer.next == secondPointer.next ||
+            firstPointer.next == secondPointer.next.next) return true;
+
+            firstPointer = firstPointer.next;
+            secondPointer = secondPointer.next.next;
+        }
+
+        return false;
     }
 }
